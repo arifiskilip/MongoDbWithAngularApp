@@ -1,0 +1,60 @@
+<div class="login-container">
+  <h2 class="text-center mb-4">Giriş Yap</h2>
+  <form [formGroup]="loginForm">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        placeholder="Email adresinizi girin"
+        [appValid]="loginForm.get('email').valid"
+        required
+      />
+      <div
+        *ngIf="email.invalid"
+        class="invalid-feedback"
+      >
+        <div *ngIf="email.errors?.['required']">
+          {{ customErrorMessages.email.required}}
+        </div>
+        <div *ngIf="email.errors?.['email']">
+          {{ customErrorMessages.email.email }}
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Şifre</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        placeholder="Şifrenizi girin"
+        [appValid]="loginForm.get('password').valid"
+        required
+      />
+      <div *ngIf="password.invalid"
+      class="invalid-feedback">
+          <div *ngIf="password.errors?.['required']">
+          {{customErrorMessages.password.required}}</div>
+          <div *ngIf="password.errors?.['minlength']">
+              {{customErrorMessages.password.minLength}}</div>
+          <div *ngIf="password.errors?.['maxlength']">
+              {{customErrorMessages.password.maxLength}}</div>
+      </div>
+    </div>
+    <button
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="btn btn-primary btn-block mb-3"
+      (click)="login()"
+    >
+      <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+    </button>
+    <div class="text-center">
+      Yeni misin? <a  routerLink="/register">Kayıt Ol</a>
+    </div>
+  </form>
+</div>
