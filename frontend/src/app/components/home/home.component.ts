@@ -9,5 +9,10 @@ import { SharedModule } from '../../common/shared/shared.module';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  /**
+   *
+   */
+  constructor() {
 
+  }
 }

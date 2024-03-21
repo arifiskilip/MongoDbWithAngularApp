@@ -16,4 +16,10 @@ export class CustomErrorMessagesService {
     minLength: 'Şifre alanı en az 3 karakter olmalı.',
     maxLength: 'Şifre alanı en fazla 15 karakter olmalı.'
   };
+
+  name={
+    required: 'Şifre alanı zorunludur.',
+    minLength: 'Şifre alanı en az 3 karakter olmalı.',
+    maxLength: 'Şifre alanı en fazla 15 karakter olmalı.'
+  };
 }

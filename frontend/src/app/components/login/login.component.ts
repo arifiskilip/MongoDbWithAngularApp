@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../common/shared/shared.module';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomErrorMessagesService } from '../../services/custom-error-messages.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,10 @@ export class LoginComponent implements OnInit{
   /**
    *
    */
-  constructor(private formBuilder:FormBuilder, 
-    public customErrorMessages:CustomErrorMessagesService) {
+  constructor(
+    private formBuilder:FormBuilder, 
+    public customErrorMessages:CustomErrorMessagesService,
+    private authService:AuthService) {
     
     
   }
@@ -40,7 +43,12 @@ export class LoginComponent implements OnInit{
   get password() { return this.loginForm.get('password'); }
 
   login(){
-    console.log(this.loginForm.value)
+    if(this.loginForm.valid){
+     this.authService.login(this.loginForm.value);
+    }
+    else{
+      alert("Sıkıntı büyük")
+    }
   }
 
 }

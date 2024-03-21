@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ValidDirective } from '../directives/valid.directive';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -13,14 +14,18 @@ import { ValidDirective } from '../directives/valid.directive';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    ValidDirective
+    ValidDirective,
+    NgxSpinnerModule.forRoot({
+      type:'ball-atom'
+    })
   ],
   exports : [
     CommonModule,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    ValidDirective
+    ValidDirective,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule { }

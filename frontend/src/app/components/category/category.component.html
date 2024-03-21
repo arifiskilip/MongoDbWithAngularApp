@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 text-right">
+      <button
+        class="btn btn-success"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        <i class="fas fa-plus"></i> Ekle
+      </button>
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Arama..." />
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Kategori Adı</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Örnek kategori verisi -->
+          @for (item of categories; track item) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button (click)="delete(item)" class="btn btn-sm btn-danger">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          } @empty { }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Ekleme Modalı -->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="categoryAddForm">
+          <div class="form-group">
+            <label for="kategoriAdi">Kategori Adı:</label>
+            <input [appValid]="categoryAddForm.valid" type="text" class="form-control" id="kategoriAdi" formControlName="name" required />
+            <div class="invalid-feedback">
+              Kategori alanı boş olamaz!
+            </div>
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Kapat
+        </button>
+        <button type="button" [disabled]="categoryAddForm.invalid" (click)="add()" class="btn btn-primary">Kayıt Et</button>
+      </div>
+    </div>
+  </div>
+</div>

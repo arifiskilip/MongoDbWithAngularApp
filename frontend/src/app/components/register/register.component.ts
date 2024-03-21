@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../common/shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomErrorMessagesService } from '../../services/custom-error-messages.service';
+import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -15,29 +18,19 @@ export class RegisterComponent implements OnInit {
   }
 
   registerForm:FormGroup = new FormGroup({});
+  get name(){ return this.registerForm.get("name")}
+  get email(){ return this.registerForm.get("email")}
+  get password(){ return this.registerForm.get("password")}
+  get confirmPassword() { return this.registerForm.get("confirmPassword")}
 
-
-  customErrorMessages = {
-    name:{
-      required: 'Şifre alanı zorunludur.',
-      minLength: 'Şifre alanı en az 3 karakter olmalı.',
-      maxLength: 'Şifre alanı en fazla 15 karakter olmalı.'
-    }
-    ,
-    email: {
-      required: 'Email alanı zorunludur.',
-      email: 'Geçerli bir email adresi girin.'
-    },
-    password: {
-      required: 'Şifre alanı zorunludur.',
-      minLength: 'Şifre alanı en az 3 karakter olmalı.',
-      maxLength: 'Şifre alanı en fazla 15 karakter olmalı.'
-    }
-  };
   /**
    *
    */
-  constructor(private formBuilder:FormBuilder) {
+  constructor(
+    private formBuilder:FormBuilder,
+    public customErrorMessages:CustomErrorMessagesService,
+    private authService:AuthService,
+    private toastr:ToastrService) {
     
   }
 
@@ -45,11 +38,20 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: ["",[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
       email: ["",[Validators.required, Validators.email]],
-      password: ["",[Validators.required,Validators.minLength(3),Validators.maxLength(15)]]
+      password: ["",[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
+      confirmPassword: ["",[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
     })
   }
 
-  get name(){ return this.registerForm.get("name")}
-  get email(){ return this.registerForm.get("email")}
-  get password(){ return this.registerForm.get("password")}
+  register(){
+    if(this.registerForm.valid){
+      if(this.password.value == this.confirmPassword.value){
+        this.authService.register(this.registerForm.value)
+      }
+      else{
+        this.toastr.warning("Şifre alanları aynı olmalıdır!","Uyarı")
+      }
+    }
+  }
+ 
 }
