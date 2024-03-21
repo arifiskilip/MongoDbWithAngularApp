@@ -32,7 +32,7 @@ export class GenericHttpService {
   }
 
 
-  post<T>(url:string,model:T,callBack:(res:any)=> void){
+  post<T>(url:string,model:any,callBack:(res:any)=> void){
     return this._http.post<any>(this.apiUrl+url,model).subscribe({
       next:(res)=> {
         this._spinner.show();

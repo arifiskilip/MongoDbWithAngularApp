@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ValidDirective } from '../directives/valid.directive';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -15,6 +15,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     RouterModule,
     ReactiveFormsModule,
     ValidDirective,
+    SweetAlert2Module,
     NgxSpinnerModule.forRoot({
       type:'ball-atom'
     })
@@ -25,6 +26,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     RouterModule,
     ReactiveFormsModule,
     ValidDirective,
+    SweetAlert2Module,
     NgxSpinnerModule
   ]
 })

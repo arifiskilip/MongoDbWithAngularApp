@@ -35,10 +35,8 @@ router.post("/update", async(req, res)=>{
     response(res, async ()=> {
         const {_id,name} = req.body;
         const category = await Category.findOne({_id:_id});
-
-        if(category.name != name){
-            const checkName = await Category.findOne({name: name});
-            if(checkName != null){
+        if(category != null){
+            if(category.name == name){
                 res.status(403).json({message: "Bu kategori adı daha önce kullanılmış!"});
             }else{
                 category.name = name;

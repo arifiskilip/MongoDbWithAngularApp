@@ -1,0 +1,96 @@
+<div class="card mt-4">
+    <div class="container">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6 text-right">
+            <button
+              class="btn btn-success"
+              data-toggle="modal"
+              data-target="#addModal"
+            >
+              <i class="fas fa-plus"></i> Ekle
+            </button>
+          </div>
+          <div class="col-md-6">
+            <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Arama..." />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <td>Ürün Resmi</td>
+                  <td>Ürün Adı</td>
+                  <td>Kategoriler</td>
+                  <td>Stok</td>
+                  <td>Birim Fiyatı</td>
+                  <td>Oluşturulma Tarihi</td>
+                  <td>Aktif/Pasif</td>
+                  <td>İşlemler</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of result.datas let index = index">
+                    <td>{{index + 1}}</td>
+                    <td>
+                        <img [src]="'http://localhost:5000/' + product.imageUrls[0].path" width="50"/>
+                    </td>
+                    <td>{{product.name}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let category of product.categories">
+                                {{category.name}}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{product.stock}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.createdDate | date: 'dd.MM.yyyy HH:mm:sss'}}</td>
+                    <td>
+                        <button
+                          class="btn"
+                          [ngClass]="product.isActive ? 'btn-danger': 'btn-primary'"
+                          >
+                            {{product.isActive?'Pastif Yap': 'Aktif Yap'}}
+                        </button>
+                    </td>
+                    <td>
+                        <button routerLink="/products/update/{{product._id}}" class="btn btn-outline-warning btn-sm" title="Güncelle">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button  class="btn btn-outline-danger btn-sm mx-1" title="Sil">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" [ngClass]="result.isFirstPage ? 'disabled' : ''">
+                    <a class="page-link" (click)="getAll(1)">İlk</a></li>
+                <li class="page-item" [ngClass]="result.isFirstPage ? 'disabled' : ''">
+                    <a class="page-link" (click)="getAll(request.pageNumber - 1)">Önceki</a>
+                </li>
+                <li class="page-item" *ngFor="let p of pageNumbers">
+                    <a class="page-link" [ngClass]="result.pageNumber == p? 'active': ''" (click)="getAll(p)">{{p}}</a>
+                </li>
+                <li class="page-item" [ngClass]="result.isLastPage ? 'disabled' : ''">
+                    <a class="page-link" (click)="getAll(request.pageNumber - 1)">Sonraki</a>
+                </li>
+                <li class="page-item" [ngClass]="result.isLastPage ? 'disabled' : ''">
+                    <a class="page-link" (click)="getAll(result.totalPageCount)">Son</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
