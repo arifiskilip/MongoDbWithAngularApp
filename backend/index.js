@@ -17,6 +17,7 @@ app.use("/api/categories",categoryRouter);
 app.use("/api/products", productRouter);
 app.use("/api/baskets", basketRouter);
 app.use("/api/orders", orderRouter);
+app.use('/uploads', express.static('uploads'));
 
 connection();
 

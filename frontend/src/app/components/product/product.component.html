@@ -3,13 +3,11 @@
       <div class="card-header">
         <div class="row">
           <div class="col-md-6 text-right">
-            <button
+            <a routerLink="/product-add"
               class="btn btn-success"
-              data-toggle="modal"
-              data-target="#addModal"
             >
               <i class="fas fa-plus"></i> Ekle
-            </button>
+            </a>
           </div>
           <div class="col-md-6">
             <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Arama..." />
@@ -35,11 +33,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let product of result.datas let index = index">
+                <tr *ngFor="let product of result.datas |productSearchPipe:searchText let index = index">
                     <td>{{index + 1}}</td>
-                    <td>
+                    @if (product.imageUrls.length>0) {
+                      <td>
                         <img [src]="'http://localhost:5000/' + product.imageUrls[0].path" width="50"/>
                     </td>
+                    }
+                    @else {
+                      <td>
+                        <img src="" width="50"/>
+                    </td>
+                    }
                     <td>{{product.name}}</td>
                     <td>
                         <ul>
@@ -54,16 +59,17 @@
                     <td>
                         <button
                           class="btn"
+                          (click)="changeStatus(product)"
                           [ngClass]="product.isActive ? 'btn-danger': 'btn-primary'"
                           >
                             {{product.isActive?'Pastif Yap': 'Aktif Yap'}}
                         </button>
                     </td>
                     <td>
-                        <button routerLink="/products/update/{{product._id}}" class="btn btn-outline-warning btn-sm" title="Güncelle">
+                        <button routerLink="/product-update/{{product._id}}" class="btn btn-outline-warning btn-sm" title="Güncelle">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button  class="btn btn-outline-danger btn-sm mx-1" title="Sil">
+                        <button (click)="deleteProduct(product)" class="btn btn-outline-danger btn-sm mx-1" title="Sil">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
@@ -71,6 +77,12 @@
               </tbody>
             </table>
             <!-- Pagination -->
+            <select (click)="getAll(1)" name="pageSize" id="pageSize" class="form-control text-center" [(ngModel)]="request.pageSize" style="width: 65px; float: left;">
+              <option>5</option>
+              <option>10</option>
+              <option>20</option>
+          </select>
+
             <nav aria-label="Page navigation">
               <ul class="pagination justify-content-center">
                 <li class="page-item" [ngClass]="result.isFirstPage ? 'disabled' : ''">

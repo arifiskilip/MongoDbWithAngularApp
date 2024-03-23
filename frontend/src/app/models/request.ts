@@ -1,8 +1,8 @@
 export class RequestModel{
-    pageNumber: number;
-    pageSize: number ;
-    search: string 
-    categoryName: string;
-    categoryId: string ;
-    priceFilter: string ;
+    pageNumber: number = 1;
+    pageSize: number = 5;
+    search: string = "";
+    categoryName: string = "Tümü";
+    categoryId: string = "";
+    priceFilter: string = "0";
 }

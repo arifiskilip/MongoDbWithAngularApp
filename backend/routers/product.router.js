@@ -34,11 +34,11 @@ router.post("/delete", async (req, res)=> {
         const {_id}= req.body;
 
         const product = await Product.findById(_id);
-        for(const image of product.imageUrls){
+        for(const image of product?.imageUrls){
             fs.unlink(image.path, ()=> {});
         }
 
-        await Product.findByIdAndRemove(_id);
+        await Product.findByIdAndDelete(_id);
         res.json({message: "Ürün kaydı başarıyla silindi!"});
     });
 });
@@ -90,7 +90,6 @@ router.post("/changeActiveStatus", async(req, res)=> {
         let product = await Product.findById(_id);
         product.isActive = !product.isActive;
         var result = await Product.findByIdAndUpdate(_id, product);
-        console.log(result);
         res.json({message: "Ürünün durumu başarıyla değiştirildi!"});
     });
 });
@@ -98,8 +97,10 @@ router.post("/changeActiveStatus", async(req, res)=> {
 //Ürünü Id'ye Göre Getir
 router.get("/getById", async(req, res)=> {
     response(res, async()=>{
+        console.log(req.body)
         const {_id}= req.body;
         let product = await Product.findById(_id);
+        console.log(_id);
         res.json(product);
     });
 });
